@@ -1,4 +1,5 @@
 import user from '../models/users_model.js';
+import {generateJWT} from '../middlewares/jwt.js'
 
 //* Login
 
@@ -24,8 +25,14 @@ const login = async (req,res) =>{
         if(!verifyPassword){
             return res.status(400).json({msg: "Usuario o contraseña incorrectos"})
         }
-        // const tokenJWT = generarJWT(userBDD.id)
-        res.status(200).json({msg: "Login exitoso"})
+        const response = {
+            _id: userBDD.id,
+            email: userBDD.email,
+            nombre: userBDD.nombre,
+            apellido: userBDD.apellido,
+        }
+        const tokenJWT = generateJWT(userBDD.id)
+        res.status(200).json({msg: "Login exitoso",response,tokenJWT})
     } catch (error) {
         console.log(error)
         res.status(500).json({msg: "Lo sentimos, algo salio mal"})
