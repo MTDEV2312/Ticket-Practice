@@ -3,7 +3,7 @@ import Tech from '../models/tech_model.js';
 const registerTech = async (req,res) => {
     try {
             //* Paso 1 tomar datos del Request
-        const {cedula,email,password}=req.body
+        const {cedula,email}=req.body
 
         //* Paso 2 Validar datos
 

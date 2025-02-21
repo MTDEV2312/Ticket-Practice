@@ -21,6 +21,11 @@ const RegisterTicket = async (req,res) => {
         if(!techExist){
             return res.status(400).json({msg: "El tecnico no existe"})
         }
+
+        const TicketCode = await ticket.findOne({codigo:codigo})
+        if(TicketCode){
+            return res.status(400).json({msg:"Ya existe un ticket con este codigo"})
+        }
     
         const newTicket = new ticket(req.body)
         await newTicket.save()
@@ -79,7 +84,8 @@ const GetTickets = async (req,res) => {
             return {
                 _id:ticket._id,
                 codigo:ticket.codigo,
-                descipcion:ticket.descipcion,
+                descipcion:ticket.descripcion,
+                status:ticket.status,
                 tecnico:techMap[ticket.tecnico] || null,
                 cliente:clientMap[ticket.cliente] || null
             }
@@ -137,6 +143,7 @@ const GetTicketsById = async (req,res) => {
             _id:ticketBDD._id,
             codigo:ticketBDD.codigo,
             descripcion:ticketBDD.descripcion,
+            status:ticketBDD.status,
             tecnico:techDetails,
             cliente:clientDetails
         }
@@ -156,7 +163,7 @@ const UpdateTicket = async (req,res) => {
             return res.status(400).json({msg: "Lo sentimos, debes llenar todos los campos"})
         }
     
-        const validFields = ['codigo','descipcion','tecnico','status']
+        const validFields = ['descipcion','tecnico','status']
         const filteredFields = {}
     
         for(const field in updates){
