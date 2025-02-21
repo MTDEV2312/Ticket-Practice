@@ -7,21 +7,26 @@ const ticketSchema = new Schema({
         trim:true,
         unique:true
     },
-    descipcion:{
+    descripcion:{
         type:String,
         required:true,
         trim:true
     },
     tecnico:{
-        type:Schema.Types.ObjectId,
+        type:String,
         ref:'Tech',
         required:true
     },
     cliente:{
-        type:Schema.Types.ObjectId,
+        type:String,
         ref:'Client',
         required:true
     },
+    status: {
+        type: String,
+        enum: ['Pendiente', 'En proceso', 'Completado'],
+        default: 'Pendiente'
+    }
 })
 
 export default model('Ticket',ticketSchema)
