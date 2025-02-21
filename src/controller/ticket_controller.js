@@ -4,16 +4,11 @@ import client from '../models/clients_model.js'
 
 const RegisterTicket = async (req,res) => {
     try {
-        const {tecnico,cliente} =req.body
+        const {tecnico,cliente,codigo} =req.body
 
         //? Verifica si un campo esta vacio
         if(Object.values(req.body).includes("")) {
             return res.status(400).json({msg: "Lo sentimos, debes llenar todos los campos"})
-        }
-
-        const ticketExist = await ticket.findOne({codigo})
-        if(!ticketExist){
-            return res.status(400).json({msg: "El ticket ya existe"})
         }
         
         const clientExist = await client.findOne({cedula:cliente})
@@ -177,7 +172,7 @@ const UpdateTicket = async (req,res) => {
         await ticket.findByIdAndUpdate(id,filteredFields,{new:true})
     
         const response = await ticket.findById(id).lean().select("-__v")
-        res.status(200).json({msg:"Ticket actualizado"},response)
+        res.status(200).json({msg:"Ticket actualizado",response})
     } catch (error) {
         console.log(error)
         res.status(500).json({msg:"Lo sentimos, ha ocurrido un error"})

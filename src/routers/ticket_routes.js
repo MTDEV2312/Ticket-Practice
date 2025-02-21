@@ -7,7 +7,7 @@ const router = Router()
 router.post('/register-ticket',verifyJwt,RegisterTicket)
 router.get('/tickets',verifyJwt,GetTickets)
 router.get('/tickets/:codigo',verifyJwt,GetTicketsById)
-router.put('/update-tickets/:id',verifyJwt,UpdateTicket)
+router.patch('/update-tickets/:id',verifyJwt,UpdateTicket)
 router.delete('/delete-tickets/:id',verifyJwt,DeleteTicket)
 
 export default router
