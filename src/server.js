@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import auth from './routers/auth_routes.js';
+import tech from './routers/tech_routes.js'
 
 // Inicializaciones
 
@@ -26,6 +27,7 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/api/',auth);
+app.use('/api/',tech);
 
 
 //Rutas no encontradas
