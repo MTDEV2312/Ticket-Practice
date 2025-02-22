@@ -163,7 +163,7 @@ const UpdateTicket = async (req,res) => {
             return res.status(400).json({msg: "Lo sentimos, debes llenar todos los campos"})
         }
     
-        const validFields = ['descipcion','tecnico','status']
+        const validFields = ['descripcion','tecnico','status']
         const filteredFields = {}
     
         for(const field in updates){
