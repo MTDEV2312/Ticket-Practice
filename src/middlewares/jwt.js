@@ -7,7 +7,7 @@ const generateJWT = (id) => {
 
 const verifyJwt = async (req,res,next) => {
     if(!req.headers.authorization){
-        res.status(401).json({msg:"Lo sentimos, debes proporcionar un token"})
+        return res.status(401).json({msg:"Lo sentimos, debes proporcionar un token"})
     }
 
     const {authorization} = req.headers
@@ -19,15 +19,15 @@ const verifyJwt = async (req,res,next) => {
         // Verificar si el token esta expirado
 
         const tokenExp=decoded.exp * 1000
-        if(Date.now >= tokenExp){
-            res.status(401).json({msg:"Lo sentimos, tu token ha expirado",expired:true})
+        if(Date.now() >= tokenExp){
+            return res.status(401).json({msg:"Lo sentimos, tu token ha expirado",expired:true})
         }
 
         req.userId = await User.findById(id).lean().select("-password")
-        next()
         if(!req.userId){
-            res.status(401).json({msg:"No tienes permisos para acceder a este recurso"})
+            return res.status(401).json({msg:"No tienes permisos para acceder a este recurso"})
         }
+        next()
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({
